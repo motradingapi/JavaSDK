@@ -1,8 +1,10 @@
 
-import java.util.Hashtable;
+// import java.util.Hashtable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+// import com.google.gson.JsonObject;
 
 import MOFSLOPENAPI.TradeWebsocket.*;
 import MOFSLOPENAPI.CMOFSLOPENAPI;
@@ -15,27 +17,28 @@ public class sampleMOFSLOPENAPI {
     public static void main(String[] args)
             throws Exception {
 
-        // // Refer README for Info
+
+        // // My credentials
         String userID = "";
         String password = "";
         String PANorDOB = "";
         String vendorId = "";
         String totp = ""; // Google Authenticator
+        String SourceId = "WEB"; // WEB, DESKTOP
         String BrowserName = "Chrome";
         String BrowserVersion = "104";
-        String SourceId = "WEB"; // WEB, DESKTOP
         String Apikey = "";
 
         String clientcode = "";
 
         // // Set Url for LIVE or UAT Testing
         // // Enter Base Url
-        String Base_Url = "https://uatopenapi.motilaloswal.com";
+        String Base_Url = "https://openapi.motilaloswaluat.com";
 
-        // // Initialize CMOFSLOPENAPI using Apikey, Base_Url, SourceId, BrowserName and BrowserVersion
+        // // Initialize CMOFSLOPENAPI using Apikey and Base_Url
         CMOFSLOPENAPI Mofsl = new CMOFSLOPENAPI(Apikey, Base_Url, SourceId, BrowserName, BrowserVersion);
 
-        // // Uncomment print statements to execute
+        // // Uncomment console.log statement to execute
         // // Login request will always be first request with each following request
 
         try {
@@ -49,7 +52,7 @@ public class sampleMOFSLOPENAPI {
 
             // After Login if totp = "" then enter otp received on registered Email and
             // Mobile for verification
-            // if (totp == "" || response.getString("isAuthTokenVerified") == "FALSE") {
+            // if (totp == "" && response.getString("AuthToken") != "") {
             //     String MobileEmailOTP = "";
 
             //     try (Scanner scan = new Scanner(System.in)) {
@@ -70,23 +73,23 @@ public class sampleMOFSLOPENAPI {
             // }
 
             // // -------------- GetProfile response for dealer --------------
-            // JSONObject responseget = (Mofsl.GetProfile(clientcode));
-            // System.out.println("Profile :: " + responseget);
+            JSONObject responseget = (Mofsl.GetProfile(clientcode));
+            System.out.println("Profile :: " + responseget);
 
             // // // ---------------------- GetOrderBook ---------------
             // JSONObject OrderbookResponse = ((Mofsl.GetOrderBook(clientcode)));
             // System.out.println("Orderbook :: " + OrderbookResponse);
 
             // // // -------------------- GetTradeBook -----------------
-            // JSONObject TradeBookResponse = Mofsl.GetTradeBook(clientcode);
+            // JSONObject TradeBookResponse = ((Mofsl.GetTradeBook(clientcode)));
             // System.out.println("Tradebook :: " + TradeBookResponse);
 
             // // // ------------------ GetPosition ---------------------
-            // JSONObject GetPositionResponse = Mofsl.GetPosition(clientcode);
+            // JSONObject GetPositionResponse = ((Mofsl.GetPosition(clientcode)));
             // System.out.println("Get Position :: " + GetPositionResponse);
 
             // // // ---------------------- GetDPHolding --------------------
-            // JSONObject DPHoldingResponse = Mofsl.GetDPHolding(clientcode);
+            // JSONObject DPHoldingResponse = ((Mofsl.GetDPHolding(clientcode)));
             // System.out.println("DPHolding :: " + DPHoldingResponse);
 
             // // // -------------------------Place Order------------------
@@ -103,9 +106,9 @@ public class sampleMOFSLOPENAPI {
             // PlaceOrderInfo.qtyinlot = 100;
             // PlaceOrderInfo.disclosedqty = 0;
             // PlaceOrderInfo.amoorder = "N";
-            // PlaceOrderInfo.goodtilldate = "08-Nov-2022";
+            // PlaceOrderInfo.goodtilldate = "03-Jun-2022";
             // PlaceOrderInfo.tag = "";
-            // JSONObject PlaceOrderResponse = Mofsl.PlaceOrder(PlaceOrderInfo);
+            // JSONObject PlaceOrderResponse = (Mofsl.PlaceOrder(PlaceOrderInfo));
             // System.out.println("Place Order :: " + PlaceOrderResponse);
 
             // // // ------------ Modify Order --------------
@@ -119,7 +122,7 @@ public class sampleMOFSLOPENAPI {
             // ModifyOrderInfo.newprice = 235.5f;
             // ModifyOrderInfo.newtriggerprice = 0;
             // ModifyOrderInfo.newgoodtilldate = "";
-            // ModifyOrderInfo.lastmodifiedtime = "08-Nov-2022 11:30:25";
+            // ModifyOrderInfo.lastmodifiedtime = "10-Jun-2022 11:30:25";
             // ModifyOrderInfo.qtytradedtoday = 0;
 
             // JSONObject ModifyOrderResponse = (Mofsl.ModifyOrder(ModifyOrderInfo));
@@ -172,8 +175,17 @@ public class sampleMOFSLOPENAPI {
             // System.out.println("LTAData :: " + LTPResponse);
 
             // //------------------- GetInstrumentFile -----------------
-            // JSONObject exchange = Mofsl.GetInstrumentFile(clientcode, "BSE");
+            // JSONObject exchange = (Mofsl.GetInstrumentFile(clientcode, "NSEFO"));
             // System.out.println("Get Instrument file :: " + exchange);
+
+
+            // // ------------------ GetBrokerageDetail ------------------
+            // JSONObject brokeragedetail = Mofsl.GetBrokerageDetail(clientcode, "NSE", "A");
+            // System.out.println("Brokerage Detail: "+brokeragedetail);
+
+            // ------------------ TradeWebhook ------------------
+            JSONObject TradeWebhook = Mofsl.TradeWebhook(userID);
+            System.out.println("TradeWebhook Response: "+TradeWebhook);
 
             // // ------------------ Logout ------------------
             // JSONObject logout_response = (Mofsl.Logout(clientcode));
@@ -181,7 +193,7 @@ public class sampleMOFSLOPENAPI {
 
         } catch (Exception e) {
             // While OpenApi Server down
-            System.out.println("502 Bad Gateway Error");
+            System.out.println("502 Bad Gateway Error: " + e);
         }
 
         // // -------------------------------------------------------------------
@@ -211,7 +223,7 @@ public class sampleMOFSLOPENAPI {
                 }
             });
 
-            // ObjTradeStatus.TradeStatus_on_connect();
+            ObjTradeStatus.TradeStatus_on_connect();
         } catch (Exception e) {
             System.out.println("Exception in TradeWebsocket" + e.getMessage());
         }
@@ -226,11 +238,46 @@ public class sampleMOFSLOPENAPI {
 
                 MofslBroadcast.ScripRegister("BSE", "CASH", 532543);
                 // MofslBroadcast.ScripDeregister("BSE", "CASH", 532543);
-                // MofslBroadcast.ScripRegister("BSE", "CASH", 532540);
-                // MofslBroadcast.ScripRegister("NSE", "CASH", 11703);
-                // MofslBroadcast.ScripRegister("NSEFO", "DERIVATIVES", 51479);
-                // MofslBroadcast.ScripRegister("NSECD", "DERIVATIVES", 13578);
-                MofslBroadcast.ScripRegister("MCXCOMDTY", "DERIVATIVES", 250058);
+                MofslBroadcast.ScripRegister("BSE", "CASH", 532540);
+
+                // MofslBroadcast.ScripDeregisNer("BSE", "CASH", 532540);
+
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 474);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 7);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 17903);
+
+                MofslBroadcast.ScripRegister("BSEFO", "DERIVATIVES",873973);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 163);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 7936);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 305);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 341);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 371);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 17927);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 8311);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 2181);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 15254);
+
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 625);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 628);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 2049);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 15141);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 739);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 757);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 13725);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 15044);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 19271);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 16852);
+
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 14592);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 11896);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 7406);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 1570);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 11872);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 1247);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 3892);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 4244);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 1336);
+                // MofslBroadcast.ScripRegister("NSE", "CASH", 2316);
 
                 // // Index BSE, NSE
                 // MofslBroadcast.IndexRegister("NSE");
@@ -240,11 +287,17 @@ public class sampleMOFSLOPENAPI {
                 // MofslBroadcast.IndexDeregister("BSE");
             }
         });
+        // Hashtable<Integer, Boolean> ScripCount = new Hashtable<Integer, Boolean>();
 
         MofslBroadcast.GetBroadcastMessage(new OnBroadcastMessage() {
 
             @Override
             public void BroadcastResponse(JSONObject l_JSONResponse) throws JSONException {
+
+                // if (!ScripCount.containsKey(l_JSONResponse.getInt("Scrip_Code"))) {
+                // ScripCount.put(l_JSONResponse.getInt("Scrip_Code"), true);
+                // }
+                // System.out.println(ScripCount);
 
                 if (l_JSONResponse.getString("Type") == "Index") {
                     System.out.println("Index:: " + l_JSONResponse);

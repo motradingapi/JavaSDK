@@ -1,7 +1,7 @@
 Implementation guide
 
-Release Date: 13/06/2023
-SDK Version: "Java 2.2"
+Release Date: 31/07/2024	UAT base URL changes
+SDK Version : JavaSDK-V3.1
 
 1. Use java Version
 	Java Version = 17.0.2 
@@ -29,7 +29,7 @@ SDK Version: "Java 2.2"
 	1. For live 
 	   Base_Url = "https://openapi.motilaloswal.com"
 	2. For UAT
-	   Base_Url = "https://uatopenapi.motilaloswal.com"
+	   Base_Url = "https://openapi.motilaloswaluat.com"
 
 6. Initialize MofslOpenApi
 	Initialize CMOFSLOPENAPI using Apikey, Base_Url and SourceId
