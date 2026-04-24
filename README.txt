@@ -1,18 +1,19 @@
 Implementation guide
 
-Release Date: 31/07/2024	UAT base URL changes
-SDK Version : JavaSDK-V3.1
+Release Date: 23/12/2025	
+SDK Version : JavaSDK-V3.3	Access Token added in header and API Introduced, API Version Changes
+Md5sum: 61af02a63397dd1444717b313d20f497
 
 1. Use java Version
 	Java Version = 17.0.2 
-	If run with any lower version, It will get Error: Unable to initialize main class sampleMOFSLOPENAPI Caused by: java.lang.UnsupportedClassVersionError:
+	If run with any lower version, you may get error: Unable to initialize main class sampleMOFSLOPENAPI Caused by: java.lang.UnsupportedClassVersionError:
 
 2. Packages Used
 	1. gson-2.2.1
 	2. java-json
 	3. javax.xml.bind
 	4. nv-websocket-client
-	Included in SDK, No need to add any jar file other than MOFSLOPENAPI_Java.jar.
+	Included in SDK, No need to add any jar file other than MOFSLOPENAPI_V3.3.jar.
 
 3. ApiKey
 	ApiKey will be obtain from website 

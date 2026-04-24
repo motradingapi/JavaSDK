@@ -17,8 +17,7 @@ public class sampleMOFSLOPENAPI {
     public static void main(String[] args)
             throws Exception {
 
-
-        // // My credentials
+        // // Dealer UAT Credentials
         String userID = "";
         String password = "";
         String PANorDOB = "";
@@ -30,13 +29,14 @@ public class sampleMOFSLOPENAPI {
         String Apikey = "";
 
         String clientcode = "";
+        String APISecretKey = "";
 
         // // Set Url for LIVE or UAT Testing
         // // Enter Base Url
         String Base_Url = "https://openapi.motilaloswaluat.com";
 
         // // Initialize CMOFSLOPENAPI using Apikey and Base_Url
-        CMOFSLOPENAPI Mofsl = new CMOFSLOPENAPI(Apikey, Base_Url, SourceId, BrowserName, BrowserVersion);
+        CMOFSLOPENAPI Mofsl = new CMOFSLOPENAPI(Apikey, Base_Url, SourceId, BrowserName, BrowserVersion, APISecretKey);
 
         // // Uncomment console.log statement to execute
         // // Login request will always be first request with each following request
@@ -72,9 +72,14 @@ public class sampleMOFSLOPENAPI {
             //     }
             // }
 
+            // Get Access Token - Always after Login and OTP verification
+            // Access Token is required for all subsequent requests
+            JSONObject responseAccessToken = (Mofsl.GetAccessToken());
+            System.out.println("Access Token :: " + responseAccessToken);
+
             // // -------------- GetProfile response for dealer --------------
-            JSONObject responseget = (Mofsl.GetProfile(clientcode));
-            System.out.println("Profile :: " + responseget);
+            // JSONObject responseget = (Mofsl.GetProfile(clientcode));
+            // System.out.println("Profile :: " + responseget);
 
             // // // ---------------------- GetOrderBook ---------------
             // JSONObject OrderbookResponse = ((Mofsl.GetOrderBook(clientcode)));
@@ -150,7 +155,7 @@ public class sampleMOFSLOPENAPI {
             // JSONObject margindetail = (Mofsl.GetReportMarginDetail(clientcode));
             // System.out.println("Margin Detail :: " + margindetail);
 
-            // // // ----------------- GetMarginSummary ----------------------
+            // // // // ----------------- GetMarginSummary ----------------------
             // JSONObject marginsummary = (Mofsl.GetReportMarginSummary(clientcode));
             // System.out.println("Margin Summary :: " + marginsummary);
 
@@ -166,26 +171,26 @@ public class sampleMOFSLOPENAPI {
             // System.out.println("Get Trade Details By Unique OrderID :: " +
             // GetTradebyUniqueOrderID);
 
-            // ---------------- LTPData ------------------
+            // // ---------------- LTPData ------------------
             // LTPData LTPData = new LTPData();
             // LTPData.clientcode = clientcode;
             // LTPData.exchange = "BSE";
             // LTPData.scripcode = 500317;
             // JSONObject LTPResponse = (Mofsl.GetLtp(LTPData));
-            // System.out.println("LTAData :: " + LTPResponse);
+            // System.out.println("LTPData :: " + LTPResponse);
 
             // //------------------- GetInstrumentFile -----------------
-            // JSONObject exchange = (Mofsl.GetInstrumentFile(clientcode, "NSEFO"));
+            // JSONObject exchange = (Mofsl.GetInstrumentFile(clientcode, "NSE"));
             // System.out.println("Get Instrument file :: " + exchange);
 
 
             // // ------------------ GetBrokerageDetail ------------------
-            // JSONObject brokeragedetail = Mofsl.GetBrokerageDetail(clientcode, "NSE", "A");
-            // System.out.println("Brokerage Detail: "+brokeragedetail);
+            JSONObject brokeragedetail = Mofsl.GetBrokerageDetail(clientcode, "NSE", "A");
+            System.out.println("Brokerage Detail: "+brokeragedetail);
 
-            // ------------------ TradeWebhook ------------------
-            JSONObject TradeWebhook = Mofsl.TradeWebhook(userID);
-            System.out.println("TradeWebhook Response: "+TradeWebhook);
+            // // ------------------ TradeWebhook ------------------
+            // JSONObject TradeWebhook = Mofsl.TradeWebhook(userID);
+            // System.out.println("TradeWebhook Response: "+TradeWebhook);
 
             // // ------------------ Logout ------------------
             // JSONObject logout_response = (Mofsl.Logout(clientcode));
@@ -237,7 +242,7 @@ public class sampleMOFSLOPENAPI {
             public void onBroadcast_Connected() throws Exception {
 
                 MofslBroadcast.ScripRegister("BSE", "CASH", 532543);
-                // MofslBroadcast.ScripDeregister("BSE", "CASH", 532543);
+                // // MofslBroadcast.ScripDeregister("BSE", "CASH", 532543);
                 MofslBroadcast.ScripRegister("BSE", "CASH", 532540);
 
                 // MofslBroadcast.ScripDeregisNer("BSE", "CASH", 532540);
@@ -246,7 +251,7 @@ public class sampleMOFSLOPENAPI {
                 // MofslBroadcast.ScripRegister("NSE", "CASH", 7);
                 // MofslBroadcast.ScripRegister("NSE", "CASH", 17903);
 
-                MofslBroadcast.ScripRegister("BSEFO", "DERIVATIVES",873973);
+                // MofslBroadcast.ScripRegister("BSEFO", "DERIVATIVES",873973);
                 // MofslBroadcast.ScripRegister("NSE", "CASH", 163);
                 // MofslBroadcast.ScripRegister("NSE", "CASH", 7936);
                 // MofslBroadcast.ScripRegister("NSE", "CASH", 305);
